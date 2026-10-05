@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Danh sách sách')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('books')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading">
+        <div><p class="eyebrow">Danh mục</p><h1>Danh sách sách</h1></div>
+    </div>
+    <form class="filter-panel row g-3 align-items-end mb-4" method="get" th:action="@{/books}">
+        <div class="col-12 col-md-8">
+            <label class="form-label" for="q">Tìm theo tên sách, tác giả hoặc ISBN</label>
+            <input class="form-control" id="q" name="q" type="search" th:value="${query}">
+        </div>
+        <div class="col-12 col-md-auto"><button class="btn btn-primary" type="submit">Tìm sách</button></div>
+    </form>
+    <div class="table-panel table-responsive">
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Sách</th><th>Tác giả</th><th>ISBN</th><th>Thể loại</th><th>Còn / tổng</th></tr></thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.isbn}"></td>
+            <td th:text="${book.categoryName}"></td>
+            <td th:text="${book.availableQuantity + ' / ' + book.totalQuantity}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(books)}"><td class="py-5 text-center text-secondary" colspan="5">Không tìm thấy sách phù hợp.</td></tr>
+        </tbody>
+    </table>
+    </div>
+    <nav class="mt-3" aria-label="Phân trang" th:if="${bookPage.totalPages > 1}">
+        <ul class="pagination justify-content-end">
+            <li class="page-item" th:classappend="${bookPage.hasPrevious() ? '' : ' disabled'}">
+                <a class="page-link" th:href="@{/books(q=${query},page=${bookPage.number - 1})}">Trước</a>
+            </li>
+            <li class="page-item active"><span class="page-link" th:text="${bookPage.number + 1}"></span></li>
+            <li class="page-item" th:classappend="${bookPage.hasNext() ? '' : ' disabled'}">
+                <a class="page-link" th:href="@{/books(q=${query},page=${bookPage.number + 1})}">Sau</a>
+            </li>
+        </ul>
+    </nav>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Trả sách')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('loans')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading"><div><p class="eyebrow">Cập nhật tồn kho</p>
+        <h1 th:text="${'Trả sách · Phiếu #' + borrowing.id}"></h1></div></div>
+    <form class="form-panel" th:action="@{/borrowings/{id}/returns/preview(id=${borrowing.id})}"
+          th:object="${returnForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p>
+        </div>
+        <div class="table-panel table-responsive mb-4"><table class="table align-middle">
+            <thead><tr><th>Đầu sách</th><th>Hạn trả</th><th>Còn mượn</th><th style="width: 180px">Trả lần này</th></tr></thead>
+            <tbody>
+            <tr th:each="item : ${borrowing.items}" th:if="${item.quantity > item.returnedQuantity}">
+                <td class="fw-semibold" th:text="${item.title}"></td>
+                <td th:text="${borrowing.dueDate}"></td>
+                <td th:text="${item.quantity - item.returnedQuantity}"></td>
+                <td><input class="form-control" type="number" min="0"
+                    th:max="${item.quantity - item.returnedQuantity}"
+                    th:id="${'detail-' + item.id}"
+                    th:name="${'returnedQuantities[' + item.id + ']'}" value="0"
+                    th:aria-label="${'Số lượng trả: ' + item.title}"></td>
+            </tr>
+            </tbody>
+        </table></div>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" type="submit">Xem phí dự kiến</button>
+            <a class="btn btn-outline-secondary" th:href="@{/borrowings/{id}(id=${borrowing.id})}">Quay lại</a>
+        </div>
+    </form>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
+    </div>
+    <form th:action="@{/borrowings/{id}/returns/preview(id=${borrowing.id})}"
+          th:object="${returnForm}" method="post">
+         <fieldset th:each="item : ${borrowing.items}"
+                th:if="${item.quantity > item.returnedQuantity}">
+             <label th:for="${'detail-' + item.id}" th:text="${item.title}"></label>
+             <span th:text="${' — còn ' + (item.quantity - item.returnedQuantity) + ' cuốn; hạn trả ' + borrowing.dueDate}"></span>
+             <input type="number" min="0" th:max="${item.quantity - item.returnedQuantity}"
+                 th:id="${'detail-' + item.id}"
+                 th:name="${'returnedQuantities[' + item.id + ']'}" value="0">
+         </fieldset>
+        <button type="submit">Xem tiền phạt</button>
+    </form>
+    <a th:href="@{/borrowings/{id}(id=${borrowing.id})}">Quay lại</a>
+</main>
+</body>
+</html>

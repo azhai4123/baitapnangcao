@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Miễn giảm phí')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('loans')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading"><div><p class="eyebrow" th:text="${'Phiếu #' + borrowing.id}"></p><h1>Miễn giảm phí phạt</h1></div></div>
+    <div class="summary-tile mb-4"><span class="label">Số phí còn có thể xử lý</span>
+        <span class="value" th:text="${#numbers.formatDecimal(borrowing.unpaidFineAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span></div>
+    <form class="form-panel" th:action="@{/borrowings/{id}/waivers(id=${borrowing.id})}" th:object="${waiverForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p></div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6"><label class="form-label" for="amount">Số tiền miễn giảm</label>
+                <input class="form-control" id="amount" type="number" min="1" step="1" th:field="*{amount}"
+                       th:classappend="${#fields.hasErrors('amount')} ? ' is-invalid' : ''">
+                <div class="invalid-feedback d-block" th:errors="*{amount}"></div></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="approvedBy">Người phê duyệt</label>
+                <input class="form-control" id="approvedBy" th:field="*{approvedBy}" maxlength="200"
+                       th:classappend="${#fields.hasErrors('approvedBy')} ? ' is-invalid' : ''">
+                <div class="invalid-feedback d-block" th:errors="*{approvedBy}"></div></div>
+            <div class="col-12"><label class="form-label" for="reason">Lý do miễn giảm</label>
+                <textarea class="form-control" id="reason" th:field="*{reason}" maxlength="1000" rows="3"
+                          th:classappend="${#fields.hasErrors('reason')} ? ' is-invalid' : ''"></textarea>
+                <div class="invalid-feedback d-block" th:errors="*{reason}"></div></div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-4"><button class="btn btn-primary" type="submit">Ghi nhận miễn giảm</button>
+            <a class="btn btn-outline-secondary" th:href="@{/borrowings/{id}(id=${borrowing.id})}">Quay lại phiếu</a></div>
+    </form>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

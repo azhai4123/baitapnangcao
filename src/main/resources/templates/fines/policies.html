@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Chính sách phí phạt')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('policies')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading"><div><p class="eyebrow">Thiết lập nghiệp vụ</p><h1>Chính sách phí phạt</h1></div></div>
+    <form class="form-panel mb-5" th:action="@{/fine-policies}" th:object="${policyForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p></div>
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-4"><label class="form-label" for="dailyFineAmount">Phí mỗi ngày (₫)</label>
+                <input class="form-control" id="dailyFineAmount" type="number" min="0" step="1" th:field="*{dailyFineAmount}"
+                       th:classappend="${#fields.hasErrors('dailyFineAmount')} ? ' is-invalid' : ''">
+                <div class="invalid-feedback d-block" th:errors="*{dailyFineAmount}"></div></div>
+            <div class="col-12 col-md-4"><label class="form-label" for="graceDays">Số ngày miễn phí</label>
+                <input class="form-control" id="graceDays" type="number" min="0" th:field="*{graceDays}"
+                       th:classappend="${#fields.hasErrors('graceDays')} ? ' is-invalid' : ''">
+                <div class="invalid-feedback d-block" th:errors="*{graceDays}"></div></div>
+            <div class="col-12 col-md-4"><label class="form-label" for="maxFineAmount">Mức trần mỗi đầu sách (₫)</label>
+                <input class="form-control" id="maxFineAmount" type="number" min="1" step="1" th:field="*{maxFineAmount}"
+                       th:classappend="${#fields.hasErrors('maxFineAmount')} ? ' is-invalid' : ''">
+                <div class="invalid-feedback d-block" th:errors="*{maxFineAmount}"></div></div>
+        </div>
+        <button class="btn btn-primary mt-4" type="submit">Áp dụng chính sách mới</button>
+    </form>
+    <h2 class="section-title">Lịch sử chính sách</h2>
+    <div class="table-panel table-responsive"><table class="table table-hover align-middle">
+        <thead><tr><th>Phí/ngày</th><th>Ngày miễn</th><th>Mức trần</th><th>Trạng thái</th></tr></thead>
+        <tbody><tr th:each="policy : ${policies}">
+            <td th:text="${policy.dailyFineAmount}"></td><td th:text="${policy.graceDays}"></td>
+            <td th:text="${policy.maxFineAmount == null ? 'Không giới hạn' : policy.maxFineAmount}"></td>
+            <td th:text="${policy.active ? 'Đang áp dụng' : 'Ngừng áp dụng'}"></td>
+        </tr></tbody>
+    </table></div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

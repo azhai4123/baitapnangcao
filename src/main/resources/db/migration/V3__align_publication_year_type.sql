@@ -1,0 +1,2 @@
+ALTER TABLE books
+    MODIFY COLUMN publication_year INT UNSIGNED NULL;

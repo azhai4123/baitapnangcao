@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle + ' · Thư viện'}">Thư viện</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<nav th:fragment="navbar(activePage)" class="navbar navbar-expand-lg navbar-dark app-navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/borrowings}"><span class="brand-mark">T</span> Thư viện</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#libraryNav" aria-controls="libraryNav" aria-expanded="false"
+                aria-label="Mở menu điều hướng">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="libraryNav">
+            <div class="navbar-nav ms-auto gap-lg-1">
+                <a class="nav-link" th:classappend="${activePage == 'loans' ? ' active' : ''}"
+                   th:href="@{/borrowings}">Phiếu mượn</a>
+                <a class="nav-link" th:classappend="${activePage == 'books' ? ' active' : ''}"
+                   th:href="@{/books}">Sách</a>
+                <a class="nav-link" th:classappend="${activePage == 'policies' ? ' active' : ''}"
+                   th:href="@{/fine-policies}">Phí phạt</a>
+                <a class="nav-link" th:classappend="${activePage == 'reports' ? ' active' : ''}"
+                   th:href="@{/reports/overdue}">Quá hạn</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div th:fragment="alerts" class="container flash-area">
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="status">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+    </div>
+</div>
+<th:block th:fragment="scripts">
+    <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
+</th:block>
+</body>
+</html>

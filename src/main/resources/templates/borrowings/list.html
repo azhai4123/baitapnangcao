@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Phiếu mượn')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('loans')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading">
+        <div><p class="eyebrow">Giao dịch thư viện</p></div>
+        <a class="btn btn-accent" th:href="@{/borrowings/new}">＋ Lập phiếu mượn</a>
+    </div>
+    <form class="filter-panel row g-3 align-items-end mb-4" method="get" th:action="@{/borrowings}">
+        <div class="col-12 col-sm-6 col-lg-3">
+        <label class="form-label" for="status">Trạng thái</label>
+        <select class="form-select" id="status" name="status">
+            <option value="">Tất cả</option>
+            <option value="BORROWING" th:selected="${statusFilter == 'BORROWING'}">Đang mượn</option>
+            <option value="PARTIALLY_RETURNED" th:selected="${statusFilter == 'PARTIALLY_RETURNED'}">Trả một phần</option>
+            <option value="OVERDUE" th:selected="${statusFilter == 'OVERDUE'}">Quá hạn</option>
+            <option value="RETURNED" th:selected="${statusFilter == 'RETURNED'}">Đã trả</option>
+            <option value="CANCELLED" th:selected="${statusFilter == 'CANCELLED'}">Đã hủy</option>
+        </select>
+        </select></div>
+        <div class="col-12 col-sm-6 col-lg-3"><label class="form-label" for="member">Độc giả</label>
+            <input class="form-control" id="member" name="member" th:value="${memberFilter}"></div>
+        <div class="col-6 col-lg-2"><label class="form-label" for="from">Từ ngày</label>
+            <input class="form-control" id="from" name="from" type="date" th:value="${fromFilter}"></div>
+        <div class="col-6 col-lg-2"><label class="form-label" for="to">Đến ngày</label>
+            <input class="form-control" id="to" name="to" type="date" th:value="${toFilter}"></div>
+        <div class="col-12 col-lg-2"><button class="btn btn-outline-secondary w-100" type="submit">Lọc danh sách</button></div>
+    </form>
+    <div class="table-panel table-responsive"><table class="table table-hover align-middle">
+        <thead><tr><th>Mã phiếu</th><th>Thành viên</th><th>Ngày mượn</th><th>Hạn trả</th><th>Trạng thái</th><th>Còn nợ</th><th>Chi tiết</th></tr></thead>
+        <tbody>
+        <tr th:each="item : ${borrowings}">
+            <td class="fw-semibold" th:text="${'#' + item.id}"></td>
+            <td th:text="${item.memberName}"></td>
+            <td th:text="${item.borrowedDate}"></td>
+            <td th:text="${item.dueDate}"></td>
+            <td><span class="status-pill" th:text="${item.status}"></span></td>
+            <td class="text-nowrap" th:text="${#numbers.formatDecimal(item.unpaidFineAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+            <td><a class="btn btn-sm btn-outline-success" th:href="@{/borrowings/{id}(id=${item.id})}">Chi tiết</a></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(borrowings)}"><td class="py-5 text-center text-secondary" colspan="7">Không có phiếu phù hợp với bộ lọc.</td></tr>
+        </tbody>
+    </table></div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

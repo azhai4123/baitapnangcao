@@ -1,0 +1,240 @@
+:root {
+    --ink: #20332e;
+    --muted: #68766f;
+    --forest: #17483e;
+    --leaf: #dce9df;
+    --citrus: #d6a83e;
+    --coral: #bd5b43;
+    --paper: #f5f7f3;
+    --line: #dce3dc;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.app-navbar {
+    background: var(--forest);
+    box-shadow: 0 3px 14px rgb(23 72 62 / 13%);
+}
+
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+}
+
+.brand-mark {
+    display: grid;
+    width: 2rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border-radius: .45rem;
+    background: var(--citrus);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    border-radius: .4rem;
+    color: rgb(255 255 255 / 76%);
+    padding-inline: .85rem;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    background: rgb(255 255 255 / 11%);
+    color: #fff;
+}
+
+.page-shell {
+    max-width: 1160px;
+    padding-top: 2.25rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.page-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.page-heading h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.8rem, 2.2rem, 2.2rem);
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.eyebrow {
+    margin-bottom: .45rem;
+    color: var(--coral);
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.toolbar,
+.filter-panel,
+.form-panel,
+.table-panel,
+.detail-panel {
+    border: 1px solid var(--line);
+    border-radius: .55rem;
+    background: #fff;
+}
+
+.filter-panel,
+.form-panel,
+.detail-panel {
+    padding: 1.25rem;
+}
+
+.table-panel {
+    overflow: hidden;
+}
+
+.table {
+    --bs-table-bg: transparent;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #eef2ed;
+    color: #53635b;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.table > :not(caption) > * > * {
+    padding: .85rem 1rem;
+    border-color: var(--line);
+    vertical-align: middle;
+}
+
+.form-label {
+    color: #43534b;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.form-control,
+.form-select {
+    border-color: #cbd6cd;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #568a76;
+    box-shadow: 0 0 0 .2rem rgb(86 138 118 / 17%);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--forest);
+    --bs-btn-border-color: var(--forest);
+    --bs-btn-hover-bg: #103a32;
+    --bs-btn-hover-border-color: #103a32;
+    --bs-btn-active-bg: #103a32;
+    --bs-btn-active-border-color: #103a32;
+}
+
+.btn-accent {
+    border-color: var(--citrus);
+    background: var(--citrus);
+    color: #2b2b22;
+    font-weight: 600;
+}
+
+.btn-accent:hover {
+    border-color: #c0932f;
+    background: #c0932f;
+    color: #20251f;
+}
+
+.section-title {
+    margin-bottom: 1rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.summary-tile {
+    height: 100%;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--citrus);
+    border-radius: .45rem;
+    background: #fff;
+}
+
+.summary-tile .label {
+    display: block;
+    color: var(--muted);
+    font-size: .82rem;
+}
+
+.summary-tile .value {
+    display: block;
+    margin-top: .35rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: .25rem .6rem;
+    border-radius: 99px;
+    background: var(--leaf);
+    color: var(--forest);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.item-row {
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: .45rem;
+    background: #fbfcfa;
+}
+
+.flash-area:empty {
+    display: none;
+}
+
+.pagination .page-link {
+    color: var(--forest);
+}
+
+.pagination .active > .page-link {
+    border-color: var(--forest);
+    background: var(--forest);
+    color: #fff;
+}
+
+@media (max-width: 575.98px) {
+    .page-shell {
+        padding-top: 1.5rem !important;
+    }
+
+    .page-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .filter-panel,
+    .form-panel,
+    .detail-panel {
+        padding: 1rem;
+    }
+}

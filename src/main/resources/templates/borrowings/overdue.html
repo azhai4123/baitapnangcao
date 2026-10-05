@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Báo cáo quá hạn')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('reports')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading"><div><p class="eyebrow">Theo dõi hạn trả</p><h1>Sách quá hạn</h1></div></div>
+    <div class="table-panel table-responsive"><table class="table table-hover align-middle">
+        <thead>
+        <tr><th>Phiếu</th><th>Thành viên</th><th>Sách</th><th>Hạn trả</th><th>Số lượng</th><th>Ngày trễ</th><th class="text-end">Phí dự kiến</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${overdueBooks}">
+            <td><a class="link-success fw-semibold" th:href="@{/borrowings/{id}(id=${item.borrowingId})}" th:text="${'#' + item.borrowingId}"></a></td>
+            <td th:text="${item.memberName}"></td>
+            <td th:text="${item.bookTitle}"></td>
+            <td th:text="${item.dueDate}"></td>
+            <td th:text="${item.outstandingQuantity}"></td>
+            <td th:text="${item.overdueDays}"></td>
+            <td class="text-end text-nowrap" th:text="${#numbers.formatDecimal(item.estimatedFine, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(overdueBooks)}"><td class="py-5 text-center text-secondary" colspan="7">Hiện không có sách quá hạn.</td></tr>
+        </tbody>
+    </table></div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

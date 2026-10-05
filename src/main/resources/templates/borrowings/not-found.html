@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Không tìm thấy phiếu')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('loans')}"></nav>
+<main class="container page-shell">
+    <div class="form-panel text-center py-5">
+        <p class="eyebrow">404 · Không tìm thấy</p>
+        <h1 class="mb-3">Phiếu mượn không tồn tại</h1>
+        <p class="text-secondary mb-4">Phiếu có thể đã bị xóa hoặc đường dẫn không chính xác.</p>
+        <a class="btn btn-primary" th:href="@{/borrowings}">Về danh sách phiếu</a>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

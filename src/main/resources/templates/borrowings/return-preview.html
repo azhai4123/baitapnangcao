@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Xác nhận trả sách')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('loans')}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+<main class="container page-shell">
+    <div class="page-heading"><div><p class="eyebrow">Xác nhận giao dịch</p><h1>Kiểm tra khoản phí</h1></div></div>
+    <div class="table-panel table-responsive mb-4"><table class="table align-middle">
+        <thead><tr><th>Sách</th><th>Số lượng trả</th><th>Ngày tính phí</th><th class="text-end">Tiền phạt</th></tr></thead>
+        <tbody>
+        <tr th:each="line : ${preview.lines}">
+            <td th:text="${line.bookTitle}"></td>
+            <td th:text="${line.returnedQuantity}"></td>
+            <td th:text="${line.overdueDays}"></td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(line.fineAmount, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+        </tr>
+        </tbody>
+    </table></div>
+    <div class="d-flex justify-content-end mb-4"><div class="summary-tile text-end">
+        <span class="label">Tổng phí phát sinh</span>
+        <span class="value" th:text="${#numbers.formatDecimal(preview.totalFine, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+    </div></div>
+    <form th:action="@{/borrowings/{id}/returns(id=${preview.borrowingId})}"
+          th:object="${returnForm}" method="post">
+        <input th:each="line : ${preview.lines}" type="hidden"
+               th:name="${'returnedQuantities[' + line.detailId + ']'}" th:value="${line.returnedQuantity}">
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" type="submit">Xác nhận trả sách</button>
+            <a class="btn btn-outline-secondary" th:href="@{/borrowings/{id}/returns/new(id=${preview.borrowingId})}">Quay lại chỉnh sửa</a>
+        </div>
+    </form>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
